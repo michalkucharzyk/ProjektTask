@@ -1,0 +1,29 @@
+.wrapper{
+  max-width: 1440px;
+  width: 90%;
+  margin: auto;
+
+  &Left{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+.navItem {
+  display: inline;
+  margin-right: 35px;
+  list-style: none;
+  font-size: 16px;
+
+  &Link {
+    text-decoration: none;
+    color: #fff;
+    text-transform: lowercase;
+
+    &Active {
+      color: #13c1a3;
+      font-weight: 700;
+    }
+  }
+}
