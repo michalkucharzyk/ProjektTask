@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Footer.module.scss"
 
-const Footer = ({openModalFn}) =>(
+const Footer = () =>(
     <footer className={styles.wrapper}>
         <p>Projekt zarelizowany na przedmiot ....</p>
     </footer>

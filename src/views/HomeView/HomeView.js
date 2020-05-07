@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./homeView.module.scss"
+
 class HomeView extends React.Component {
     render() {
         return (

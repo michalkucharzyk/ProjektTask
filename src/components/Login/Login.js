@@ -5,75 +5,75 @@ import Button from "../Button/Button";
 import {Formik} from "formik";
 import * as _ from 'ramda';
 import {CurrentUserConsumer} from "../../context/CurrentUserContext";
+import {Redirect} from "react-router-dom";
 
 class Login extends React.Component {
     state = {
-        value:{
-            name:'',
-            password:''
+        value: {
+            name: '',
+            password: ''
         },
     };
 
     render() {
+        const {from} = {from: {pathname: "/"}};
         return (
             <CurrentUserConsumer>
-            {({login}) =>(
-                <div className={style.wrapper}>
-                    <div className={style.form}>
-                        <h2>Zaloguj się</h2>
-                        <Formik
-                            initialValues={{...this.state.value}}
-                            onSubmit={(values ) => login(values)
+                {({isLogged, login}) => (
+                    <>
+                        {isLogged && <Redirect to={from}/>}
+                        <div className={style.wrapper}>
+                            <div className={style.form}>
+                                <h2>Zaloguj się</h2>
+                                <Formik
+                                    initialValues={{...this.state.value}}
+                                    onSubmit={(values) => login(values)}
+                                    validate={(values => {
+                                        let errors = {};
 
-                            }
-                            validate={(values => {
-                                let errors = {};
-                                if (!values.name)
-                                    errors.name = "Podaj nazwę użytkownika";
+                                        if (!values.email)
+                                            errors.email = "Podaj nazwę użytkownika";
 
-                                if (!values.password)
-                                    errors.password = "Podaj hasło";
+                                        if (!values.password)
+                                            errors.password = "Podaj hasło";
 
-                                if (_.isEmpty(errors))
-                                    this.setState({disabled: false});
-                                else
-                                    this.setState({disabled: true});
+                                        if (_.isEmpty(errors))
+                                            this.setState({disabled: false});
+                                        else
+                                            this.setState({disabled: true});
 
-                                return errors;
-                            })}
-                            render={({
-                                         values,
-                                         errors,
-                                         touched,
-                                         handlerBlur,
-                                         handleChange,
-                                         handleSubmit,
-                                         isSubmitting
-                                     }) => (
-                                <form autoComplete="off"  onSubmit={handleSubmit}>
-                                    <Input name="name" label="Name"
-                                           maxLength={30}
-                                           onChange={handleChange}
-                                           errors={errors.name}
-                                           values={values.name}
-                                    />
-                                    <Input name="password" label="Password"
-                                           maxLength={30}
-                                           type="password"
-                                           onChange={handleChange}
-                                           errors={errors.password}
-                                           values={values.password}
-                                    />
-                                    <div className={style.left}>
-                                        <Button>Zaloguj się</Button>
-                                    </div>
-                                </form>
-                            )}
-                        />
-                    </div>
-                </div>
-            )}</CurrentUserConsumer>
-
+                                        return errors;
+                                    })}
+                                    render={({
+                                                 values,
+                                                 errors,
+                                                 touched,
+                                                 handlerBlur,
+                                                 handleChange,
+                                                 handleSubmit,
+                                                 isSubmitting
+                                             }) => (
+                                        <form autoComplete="off" onSubmit={handleSubmit}>
+                                            <Input name="email" label="Email" maxLength={30} onChange={handleChange}
+                                                   errors={errors.email}
+                                                   values={values.email}
+                                            />
+                                            <Input name="password" label="Password" maxLength={30} type="password"
+                                                   onChange={handleChange}
+                                                   errors={errors.password}
+                                                   values={values.password}
+                                            />
+                                            <div className={style.left}>
+                                                <Button>Zaloguj się</Button>
+                                            </div>
+                                        </form>
+                                    )}
+                                />
+                            </div>
+                        </div>
+                    </>
+                )}
+            </CurrentUserConsumer>
         )
     }
 }

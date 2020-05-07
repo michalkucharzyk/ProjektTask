@@ -4,57 +4,49 @@ import styles from "./HeaderNavigation.module.scss"
 import {CurrentUserConsumer} from "../../context/CurrentUserContext";
 
 
-class HeaderNavigation extends React.Component
-{
+class HeaderNavigation extends React.Component {
     render() {
-        return(
+        return (
             <CurrentUserConsumer>
-                {({user}) =>(
+                {({isLogged, logout}) => (
                     <nav className={styles.wrapper}>
-                        {user.isLogged ? (
+                        {isLogged ? (
                             <ul className={styles.wrapperLeft}>
                                 <li className={styles.navItem}>
-                                    <NavLink
-                                        exact
-                                        activeClassName={styles.navItemLinkActive}
-                                        className={styles.navItemLink}
-                                        to="/">
-                                        Twitters
+                                    <NavLink exact activeClassName={styles.navItemLinkActive}
+                                             className={styles.navItemLink}
+                                             to="/">
+                                        Zakladka 1
                                     </NavLink>
                                 </li>
                                 <li className={styles.navItem}>
-                                    <NavLink
-                                        activeClassName={styles.navItemLinkActive}
-                                        className={styles.navItemLink}
-                                        to="/articles">
-                                        Articles
+                                    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
+                                             to="/articles">
+                                        Zakladka 2
                                     </NavLink>
                                 </li>
                                 <li className={styles.navItem}>
-                                    <NavLink
-                                        activeClassName={styles.navItemLinkActive}
-                                        className={styles.navItemLink}
-                                        to="/notes">
-                                        Notes
+                                    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
+                                             to="/notes">
+                                        Zakladk 3
                                     </NavLink>
+                                </li>
+                                <li className={styles.navItem}>
+                                    <p className={styles.navItemLink} onClick={logout}>Wyloguj</p>
                                 </li>
                             </ul>
                         ) : (
                             <ul className={styles.wrapperLeft}>
                                 <li className={styles.navItem}>
-                                    <NavLink
-                                        exact
-                                        activeClassName={styles.navItemLinkActive}
-                                        className={styles.navItemLink}
-                                        to="/login">
+                                    <NavLink exact activeClassName={styles.navItemLinkActive}
+                                             className={styles.navItemLink}
+                                             to="/login">
                                         Zaloguj
                                     </NavLink>
                                 </li>
                                 <li className={styles.navItem}>
-                                    <NavLink
-                                        activeClassName={styles.navItemLinkActive}
-                                        className={styles.navItemLink}
-                                        to="/register">
+                                    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
+                                             to="/register">
                                         Zarejestruj się
                                     </NavLink>
                                 </li>
@@ -63,7 +55,6 @@ class HeaderNavigation extends React.Component
                     </nav>
                 )}
             </CurrentUserConsumer>
-
         )
     }
 }

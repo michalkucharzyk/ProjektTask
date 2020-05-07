@@ -2,7 +2,6 @@ import React from "react";
 import style from "./RegisterView.module.scss"
 import Register from "../../components/Register/Register";
 
-
 class RegisterView extends React.Component {
     render() {
         return (

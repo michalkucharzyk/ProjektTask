@@ -1,28 +1,29 @@
 import React, {Component} from "react";
+import * as usersApi from "../helpers/UsersApi";
 
 const CurrentUserContext = React.createContext();
 
 export class CurrentUserProvider extends Component {
     state = {
-        user: {
-            isLogged: false
-        },
+        isLogged: false,
+        user: null
     };
 
-    getUser = () => {
-
-    };
-
-    login = (values) => {
-       this.setState({
-           user:{
-               isLogged: true
-           }
-       })
+    login = async (values) => {
+        const users = await usersApi.userLogin({email: values.email, password: values.password});
+        if (users.success === true) {
+            this.setState({
+                isLogged: true,
+                user: users.content
+            });
+        }
     };
 
     logout = () => {
-
+        this.setState({
+            isLogged: false,
+            user: null
+        })
     };
 
     render() {
@@ -33,6 +34,7 @@ export class CurrentUserProvider extends Component {
                     login: this.login,
                     logout: this.logout,
                     user: this.state.user,
+                    isLogged: this.state.isLogged,
                 }}
             >
                 {children}
