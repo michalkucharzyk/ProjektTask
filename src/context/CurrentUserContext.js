@@ -6,15 +6,30 @@ const CurrentUserContext = React.createContext();
 export class CurrentUserProvider extends Component {
     state = {
         isLogged: false,
+        isRegister: false,
         user: null
     };
 
+    register = async (values) => {
+        const user = await usersApi.userRegister({...values});
+        if(user.success === true)
+        {
+            this.setState({
+                isLogged: false,
+                isRegister: true,
+                user: user.content
+            });
+        }
+        console.log(user);
+
+    };
+
     login = async (values) => {
-        const users = await usersApi.userLogin({email: values.email, password: values.password});
-        if (users.success === true) {
+        const user = await usersApi.userLogin({email: values.email, password: values.password});
+        if (user.success === true) {
             this.setState({
                 isLogged: true,
-                user: users.content
+                user: user.content
             });
         }
     };
@@ -32,9 +47,11 @@ export class CurrentUserProvider extends Component {
             <CurrentUserContext.Provider
                 value={{
                     login: this.login,
+                    register: this.register,
                     logout: this.logout,
                     user: this.state.user,
                     isLogged: this.state.isLogged,
+                    isRegister: this.state.isRegister,
                 }}
             >
                 {children}

@@ -44,15 +44,16 @@ class Login extends React.Component {
 
                                         return errors;
                                     })}
-                                    render={({
-                                                 values,
-                                                 errors,
-                                                 touched,
-                                                 handlerBlur,
-                                                 handleChange,
-                                                 handleSubmit,
-                                                 isSubmitting
-                                             }) => (
+                                >{
+                                    ({
+                                         values,
+                                         errors,
+                                         touched,
+                                         handlerBlur,
+                                         handleChange,
+                                         handleSubmit,
+                                         isSubmitting
+                                     }) => (
                                         <form autoComplete="off" onSubmit={handleSubmit}>
                                             <Input name="email" label="Email" maxLength={30} onChange={handleChange}
                                                    errors={errors.email}
@@ -67,8 +68,9 @@ class Login extends React.Component {
                                                 <Button>Zaloguj się</Button>
                                             </div>
                                         </form>
-                                    )}
-                                />
+                                    )
+                                }
+                                </Formik>
                             </div>
                         </div>
                     </>
