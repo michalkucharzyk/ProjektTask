@@ -7,6 +7,8 @@ import Footer from "../../components/Footer/Footer";
 import LoginView from "../LoginView/LoginView";
 import RegisterView from "../RegisterView/RegisterView";
 import {CurrentUserProvider} from "../../context/CurrentUserContext";
+import DashboardView from "../DashboardView/DashboardView";
+import ListTaskView from "../ListTaskView/ListTaskView";
 
 class Root extends React.Component {
     render() {
@@ -18,6 +20,8 @@ class Root extends React.Component {
                             <Route exact path="/" component={HomeView}/>
                             <Route exact path="/login" component={LoginView}/>
                             <Route exact path="/register" component={RegisterView}/>
+                            <Route exact path="/dashboard" component={DashboardView}/>
+                            <Route exact path="/dashboard/:name" component={ListTaskView}/>
                         </Switch>
                     <Footer/>
                 </BrowserRouter>

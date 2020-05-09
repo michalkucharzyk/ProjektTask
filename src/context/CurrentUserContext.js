@@ -20,8 +20,6 @@ export class CurrentUserProvider extends Component {
                 user: user.content
             });
         }
-        console.log(user);
-
     };
 
     login = async (values) => {

@@ -1,0 +1,70 @@
+.wrapper
+{
+  width: 100%;
+  box-shadow: 0 10px 40px -15px rgba(#818181, .5);
+  border:1px solid #13c1a3;
+  border-radius: 5px;
+  color: #fff;
+  position: relative;
+}
+.title{
+  font-size: 25px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #13c1a3;
+  margin: 0 0 20px 0;
+  padding: 10px 30px;
+  color: #fff;
+}
+.text
+{
+  font-size: 16px;
+  padding: 10px;
+  font-weight: 300;
+  color: #fff;
+}
+
+.closeButton {
+  width: 25px;
+  height: 25px;
+  background: #dc3545;
+  border: none;
+  top: 5px;
+  right: 5px;
+  position: absolute;
+  transform-origin: 50%;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+    width: 20px;
+    height: 2px;
+    position: absolute;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    left: 0;
+    background-color: white;
+    margin: auto;
+
+  }
+
+  &::before
+  {
+    transform: rotate(45deg);
+  }
+  &::after
+  {
+    transform: rotate(-45deg);
+  }
+}
+.editButton
+{
+  @extend .closeButton;
+  left: 5px;
+  background: #272ddc;
+
+
+}

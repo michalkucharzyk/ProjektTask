@@ -8,3 +8,15 @@ export const serverUrlRegister = () =>
 
 export const serverUrlUsers = id =>
     `${serverUrl}/user/GetById/${id}`;
+
+export const serverUrlBoardInsert = () =>
+    `${serverUrl}/Board/add`;
+
+export const serverUrlGetAllByUserId = (id) =>
+    `${serverUrl}/Board/GetAllByUserId/${id}`;
+
+export const serverUrlDeleteBoard = (id) =>
+    `${serverUrl}/Board/delete/${id}`;
+
+export const serverUrlUpdateBoard = () =>
+    `${serverUrl}/Board/update`;

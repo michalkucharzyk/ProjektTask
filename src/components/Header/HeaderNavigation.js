@@ -15,20 +15,26 @@ class HeaderNavigation extends React.Component {
                                 <li className={styles.navItem}>
                                     <NavLink exact activeClassName={styles.navItemLinkActive}
                                              className={styles.navItemLink}
-                                             to="/">
-                                        Zakladka 1
+                                             to="/dashboard">
+                                        Start
                                     </NavLink>
                                 </li>
                                 <li className={styles.navItem}>
                                     <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
                                              to="/articles">
-                                        Zakladka 2
+                                        Aktywne
                                     </NavLink>
                                 </li>
                                 <li className={styles.navItem}>
                                     <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
                                              to="/notes">
-                                        Zakladk 3
+                                        Wykonane
+                                    </NavLink>
+                                </li>
+                                <li className={styles.navItem}>
+                                    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
+                                             to="/notes">
+                                        Nie wykonane
                                     </NavLink>
                                 </li>
                                 <li className={styles.navItem}>

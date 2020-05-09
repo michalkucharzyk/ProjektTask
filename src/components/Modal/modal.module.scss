@@ -1,0 +1,51 @@
+.wrapper {
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  position: fixed;
+  margin: 0 auto;
+  background: #22272b;
+  box-shadow: 0 10px 40px -15px rgba(#818181, .5);
+  padding: 50px 80px;
+  width: 60vw;
+  height: 80vh;
+  max-width: 600px;
+}
+
+.closeButton {
+  width: 30px;
+  height: 30px;
+  background: #13c1a3;
+  border: none;
+  top: 25px;
+  right: 25px;
+  position: absolute;
+  transform-origin: 50%;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+    width: 20px;
+    height: 2px;
+    position: absolute;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    left: 0;
+    background-color: white;
+    margin: auto;
+
+  }
+
+  &::before
+  {
+    transform: rotate(45deg);
+  }
+  &::after
+  {
+    transform: rotate(-45deg);
+  }
+}
