@@ -17,77 +17,69 @@ class Register extends React.Component {
     };
 
     render() {
-        const {homePage} = {homePage: {pathname: "/"}};
-        const {LoginPage} = {LoginPage: {pathname: "/login"}};
+        const {registerFn} = this.props;
         return (
-            <CurrentUserConsumer>
-                {({isLogged, isRegister, register}) => (
-                    <>
-                        {isLogged && <Redirect to={homePage}/>}
-                        {isRegister && <Redirect to={LoginPage}/>}
-                        <div className={style.wrapper}>
-                            <div className={style.form}>
-                                <h2>Załóż konto</h2>
-                                <Formik
-                                    initialValues={{...this.state.value}}
-                                    onSubmit={(values) => register(values)}
-                                    validate={values => {
-                                        let errors = {};
+            <>
+                <div className={style.wrapper}>
+                    <div className={style.form}>
+                        <h2>Załóż konto</h2>
+                        <Formik
+                            initialValues={{...this.state.value}}
+                            onSubmit={(values) => registerFn(values)}
+                            validate={values => {
+                                let errors = {};
 
-                                        if (!values.name)
-                                            errors.name = "Podaj nazwę użytkownika";
+                                if (!values.name)
+                                    errors.name = "Podaj nazwę użytkownika";
 
-                                        if (!values.email)
-                                            errors.email = "Podaj adres E-mail";
+                                if (!values.email)
+                                    errors.email = "Podaj adres E-mail";
 
-                                        if (!values.password)
-                                            errors.password = "Pole hasło nie może być puste";
+                                if (!values.password)
+                                    errors.password = "Pole hasło nie może być puste";
 
-                                        if (!values.ppassword || values.password !== values.ppassword)
-                                            errors.ppassword = "Hasło muszą byc takie same";
+                                if (!values.ppassword || values.password !== values.ppassword)
+                                    errors.ppassword = "Hasło muszą byc takie same";
 
-                                        return errors
-                                    }}
-                                >{
-                                    ({
-                                         values,
-                                         errors,
-                                         touched,
-                                         handlerBlur,
-                                         handleChange,
-                                         handleSubmit,
-                                         isSubmitting
-                                     }) => (
-                                        <form autoComplete="off" onSubmit={handleSubmit}>
-                                            <Input name="name" label="Nazwa użytkownika" maxLength={30}
-                                                   onChange={handleChange} errors={errors.name}
-                                                   values={values.name}/>
+                                return errors
+                            }}
+                        >{
+                            ({
+                                 values,
+                                 errors,
+                                 touched,
+                                 handlerBlur,
+                                 handleChange,
+                                 handleSubmit,
+                                 isSubmitting
+                             }) => (
+                                <form autoComplete="off" onSubmit={handleSubmit}>
+                                    <Input name="name" label="Nazwa użytkownika" maxLength={30}
+                                           onChange={handleChange} errors={errors.name}
+                                           values={values.name}/>
 
-                                            <Input name="email" label="E-mail" maxLength={30} type="text"
-                                                   onChange={handleChange} errors={errors.email}
-                                                   values={values.email}/>
+                                    <Input name="email" label="E-mail" maxLength={30} type="text"
+                                           onChange={handleChange} errors={errors.email}
+                                           values={values.email}/>
 
-                                            <Input name="password" label="Hasło" maxLength={30} type="password"
-                                                   onChange={handleChange} errors={errors.password}
-                                                   values={values.password}/>
+                                    <Input name="password" label="Hasło" maxLength={30} type="password"
+                                           onChange={handleChange} errors={errors.password}
+                                           values={values.password}/>
 
-                                            <Input name="ppassword" label="Powtórz hasło" maxLength={30} type="password"
-                                                   onChange={handleChange} errors={errors.ppassword}
-                                                   values={values.ppassword}/>
+                                    <Input name="ppassword" label="Powtórz hasło" maxLength={30} type="password"
+                                           onChange={handleChange} errors={errors.ppassword}
+                                           values={values.ppassword}/>
 
-                                            <div className={style.left}>
-                                                <Button>Zarejestruj się</Button>
-                                            </div>
-                                        </form>
-                                    )
-                                }
-                                </Formik>
-                            </div>
-                        </div>
-                    </>
-                )}
-            </CurrentUserConsumer>
-
+                                    <div className={style.left}>
+                                        <Button>Zarejestruj się</Button>
+                                    </div>
+                                </form>
+                            )
+                        }
+                        </Formik>
+                    </div>
+                </div>
+            </>
         )
     }
 }

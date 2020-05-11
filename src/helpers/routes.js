@@ -9,6 +9,8 @@ export const serverUrlRegister = () =>
 export const serverUrlUsers = id =>
     `${serverUrl}/user/GetById/${id}`;
 
+/**Board url api **/
+
 export const serverUrlBoardInsert = () =>
     `${serverUrl}/Board/add`;
 
@@ -20,3 +22,13 @@ export const serverUrlDeleteBoard = (id) =>
 
 export const serverUrlUpdateBoard = () =>
     `${serverUrl}/Board/update`;
+
+
+/**Task url api **/
+
+export const serverUrlTaskInsert = () =>
+    `${serverUrl}/Task/add`;
+
+export const GetAllByBoardId = (id) =>
+    `${serverUrl}/Task/GetAllByBoardId/${id}`
+

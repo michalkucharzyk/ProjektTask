@@ -3,10 +3,10 @@ import * as boardApi from "../../helpers/BoardApi";
 import styles from './Board.module.scss';
 import BoardItem from "./BoardItem";
 import Modal from "../Modal/Modal";
-import FormBoardInsert from "../FormBoardTask/FormBoardInsert";
+import FormBoard from "../FormBoard/FormBoard";
 import Button from "../Button/Button";
 import * as _ from 'ramda';
-import FormBoardUpdate from "../FormBoardTask/FormBoardUpdate";
+import FormBoardUpdate from "../FormBoard/FormBoardUpdate";
 
 
 class Board extends React.Component {
@@ -82,8 +82,7 @@ class Board extends React.Component {
             boards: _.remove(index, 1, boards)
         });
     };
-    handleUpdateBoard = async (e, id) =>
-    {
+    handleUpdateBoard = async (e, id) => {
         e.preventDefault(e);
         const {boards} = this.state;
         const {board} = this.findById(id, boards);
@@ -93,12 +92,11 @@ class Board extends React.Component {
         this.openModalUpdate();
     };
 
-    updateBoard = async (values) =>
-    {
+    updateBoard = async (values) => {
         const {boards} = this.state;
         const {index} = this.findById(values.id, boards);
         const response = await boardApi.updateBoard(values);
-        if(response.success === true) {
+        if (response.success === true) {
             this.setState({
                 boards: _.update(index, values, boards)
             });
@@ -114,21 +112,23 @@ class Board extends React.Component {
                 {boards.length ? (
                     <div className={styles.wrapper}>
                         {boards.map(item =>
-                            <BoardItem deleteBoardFn={this.deleteBoard} handleUpdateBoardFn={this.handleUpdateBoard} key={item.id} {...item}/>
+                            <BoardItem deleteBoardFn={this.deleteBoard} handleUpdateBoardFn={this.handleUpdateBoard}
+                                       key={item.id} {...item}/>
                         )}
                     </div>
                 ) : (
-                    <div>
+                    <div className={styles.noBoard}>
                         <p>Brak dodanych zadań</p>
                     </div>
                 )}
                 {this.state.showModal ? (
                     <>
                         <Modal closeModalFn={this.closeModal}>
-                        {this.state.insert
-                            ? <FormBoardInsert InsertBoardFn={this.insertBoard}> </FormBoardInsert>
-                            : <FormBoardUpdate board={this.state.currentBoard} UpdateBoardFn={this.updateBoard}> </FormBoardUpdate>
-                        }
+                            {this.state.insert
+                                ? <FormBoard InsertBoardFn={this.insertBoard}> </FormBoard>
+                                : <FormBoardUpdate board={this.state.currentBoard}
+                                                   UpdateBoardFn={this.updateBoard}> </FormBoardUpdate>
+                            }
                         </Modal>
                     </>
                 ) : null

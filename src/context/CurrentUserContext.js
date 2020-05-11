@@ -5,9 +5,11 @@ const CurrentUserContext = React.createContext();
 
 export class CurrentUserProvider extends Component {
     state = {
-        isLogged: false,
+        isLogged: true,
         isRegister: false,
-        user: null
+        user: {
+            id:14
+        }
     };
 
     register = async (values) => {

@@ -21,7 +21,7 @@ class Root extends React.Component {
                             <Route exact path="/login" component={LoginView}/>
                             <Route exact path="/register" component={RegisterView}/>
                             <Route exact path="/dashboard" component={DashboardView}/>
-                            <Route exact path="/dashboard/:name" component={ListTaskView}/>
+                            <Route exact path="/dashboard/:name-:id" component={ListTaskView}/>
                         </Switch>
                     <Footer/>
                 </BrowserRouter>

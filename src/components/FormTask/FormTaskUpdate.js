@@ -1,12 +1,12 @@
 import React from "react";
-import style from "./FormBoardTask.module.scss";
+import style from "./FormTask.module.scss";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import {CurrentUserConsumer} from "../../context/CurrentUserContext";
 
 import {Formik} from "formik";
 
-class FormBoardInsert extends React.Component {
+class FormTask extends React.Component {
     state = {
         value: {
             name: '',
@@ -15,22 +15,22 @@ class FormBoardInsert extends React.Component {
     };
 
     render() {
-        const {InsertBoardFn} = this.props;
+        const {UpdateBoardFn, board} = this.props;
         return (
             <CurrentUserConsumer>
-                {({isLogged, user}) => (
+                {({isLogged}) => (
                     <>
                         <div className={style.wrapper}>
                             <div className={style.form}>
-                                <h2>Dodaj grupę</h2>
+                                <h2>Aktulizuj grupe</h2>
                                 <Formik
-                                    initialValues={{...this.state.value}}
-                                    onSubmit={(values) => InsertBoardFn(values, user)}
+                                    initialValues={board}
+                                    onSubmit={(values) => UpdateBoardFn(values)}
                                     validate={values => {
                                         let errors = {};
 
                                         if (!values.name)
-                                            errors.name = "Podaj nazwę użytkownika";
+                                            errors.name = "Podaj nazwę grupy";
 
                                         if (!values.description)
                                             errors.description = "Podaj opis grupy";
@@ -50,14 +50,14 @@ class FormBoardInsert extends React.Component {
                                         <form autoComplete="off" onSubmit={handleSubmit}>
                                             <Input name="name" label="Nazwa" maxLength={30}
                                                    onChange={handleChange} errors={errors.name}
-                                                   values={values.name}/>
+                                                   value={values.name}/>
 
                                             <Input name="description" label="Opis" maxLength={255} tag="textarea" type="text"
                                                    onChange={handleChange} errors={errors.description}
-                                                   values={values.description}/>
+                                                   value={values.description}/>
 
                                             <div className={style.left}>
-                                                <Button>Dodaj</Button>
+                                                <Button>Zapisz zmiany</Button>
                                             </div>
                                         </form>
                                     )
@@ -73,4 +73,4 @@ class FormBoardInsert extends React.Component {
     }
 }
 
-export default FormBoardInsert
+export default FormTask
