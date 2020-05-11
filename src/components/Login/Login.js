@@ -1,11 +1,10 @@
 import React from "react";
-import style from "./Login.module.scss";
+import styles from "./Login.module.scss";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import {Formik} from "formik";
 import * as _ from 'ramda';
-import {CurrentUserConsumer} from "../../context/CurrentUserContext";
-import {Redirect} from "react-router-dom";
+
 
 class Login extends React.Component {
     state = {
@@ -19,8 +18,8 @@ class Login extends React.Component {
         const {loginFn} = this.props;
         return (
             <>
-                <div className={style.wrapper}>
-                    <div className={style.form}>
+                <div className={styles.wrapper}>
+                    <div className={styles.form}>
                         <h2>Zaloguj się</h2>
                         <Formik
                             initialValues={{...this.state.value}}
@@ -61,7 +60,7 @@ class Login extends React.Component {
                                            errors={errors.password}
                                            values={values.password}
                                     />
-                                    <div className={style.left}>
+                                    <div className={styles.left}>
                                         <Button>Zaloguj się</Button>
                                     </div>
                                 </form>

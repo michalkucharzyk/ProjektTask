@@ -6,13 +6,12 @@ import FormTask from "../FormTask/FormTask";
 import TaskItem from "../TaskItem/TaskItem";
 import styles from "./ListTask.module.scss";
 import * as _ from "ramda";
-import * as boardApi from "../../helpers/BoardApi";
-
 
 class ListTask extends React.Component {
     state = {
         showModal: false,
-        idBoard: null,
+        idBoard:  this.props.idBoard,
+        task: {},
         tasks: [],
     };
 
@@ -21,17 +20,7 @@ class ListTask extends React.Component {
      * @returns {Promise<void>}
      */
     componentDidMount = async () => {
-        this.setIdBoard();
         this.getTasks();
-    };
-
-    /**
-     * Ustawnie id board w stae
-     */
-    setIdBoard = () => {
-        this.setState({
-            idBoard: this.props.idBoard
-        })
     };
 
     /**
@@ -39,7 +28,7 @@ class ListTask extends React.Component {
      * @returns {Promise<void>}
      */
     getTasks = async () => {
-        const {idBoard} = this.props;
+        const {idBoard} = this.state;
         if (idBoard) {
             const response = await taskApi.getAllByBoardId(idBoard);
             if (response.success) {
@@ -53,9 +42,9 @@ class ListTask extends React.Component {
     /**
      * Otwarcie formularz dodawania
      */
-    openModalInsert = () => {
+    openModal = () => {
         this.setState({
-            showModal: true
+            showModal: true,
         });
     };
 
@@ -64,7 +53,8 @@ class ListTask extends React.Component {
      */
     closeModal = () => {
         this.setState({
-            showModal: false
+            showModal: false,
+            task:{}
         });
     };
 
@@ -74,7 +64,7 @@ class ListTask extends React.Component {
      * @returns {Promise<void>}
      * @constructor
      */
-    InsertTaskFn = async (values) => {
+    insertTask = async (values) => {
         const {idBoard} = this.state;
         const response = await taskApi.insertTask({'boardId': idBoard, ...values});
         if (response.success === true) {
@@ -96,7 +86,7 @@ class ListTask extends React.Component {
         const index = _.findIndex(_.propEq('id', id))(arr);
         return {
             index,
-            board: arr[index]
+            task: arr[index]
         }
     };
 
@@ -106,8 +96,7 @@ class ListTask extends React.Component {
      * @param id
      * @returns {Promise<void>}
      */
-    deleteTaskFn = async (e, id) => {
-        e.preventDefault();
+    deleteTask = async (id) => {
         const {tasks} = this.state;
         await taskApi.deleteTask(id);
         const {index} = this.findById(id, tasks);
@@ -116,19 +105,43 @@ class ListTask extends React.Component {
         });
     };
 
+    handleUpdateTask = async (id) =>
+    {
+        const {tasks} = this.state;
+        const{task} = this.findById(id, tasks);
+        this.setState({
+            task: task
+        });
+        this.openModal();
+
+    };
+
+    updateTask = async (values) =>{
+        const {tasks} = this.state;
+        const {index} = this.findById(values.id, tasks);
+        const response = await taskApi.updateTask(values);
+
+        if (response.success === true) {
+            this.setState({
+                tasks: _.update(index, values, tasks)
+            });
+        }
+        this.closeModal();
+    }
+
     /**
      * Renderowanie contentu
      * @returns {*}
      */
     render() {
-        const {tasks} = this.state;
+        const {tasks, task} = this.state;
         const {nameBoard} = this.props;
         return (
             <>
                 {tasks.length ? (
                     <div className={styles.wrapper}>
                         {tasks.map(item =>
-                            <TaskItem deleteTaskFn={this.deleteTaskFn}
+                            <TaskItem deleteTaskFn={this.deleteTask} handleUpdateTaskFn={this.handleUpdateTask}
                                       key={item.id} {...item}/>
                         )}
                     </div>
@@ -140,11 +153,11 @@ class ListTask extends React.Component {
                 {this.state.showModal ? (
                     <>
                         <Modal closeModalFn={this.closeModal}>
-                            <FormTask InsertTaskFn={this.InsertTaskFn}> </FormTask>
+                            <FormTask insertTaskFn={this.insertTask} updateTaskFn={this.updateTask} currentTask={task}> </FormTask>
                         </Modal>
                     </>
                 ) : null}
-                <Button onClick={this.openModalInsert}>Dodaj grupe</Button>
+                <Button onClick={this.openModal}>Dodaj zadanie</Button>
             </>
         )
     }

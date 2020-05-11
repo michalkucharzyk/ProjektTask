@@ -23,9 +23,14 @@ export const getAllByBoardId = id =>
  * @returns {Promise | Promise<unknown>}
  */
 export const deleteTask = id =>
-    api.destroy(Routes.serverUrlDeleteBoard(id));
+    api.destroy(Routes.serverUrlDeleteTask(id));
 
-// export const updateBoard = (params) =>
-//     api.put(Routes.serverUrlUpdateBoard(),params);
+/**
+ * Aktualizacja taska
+ * @param params
+ * @returns {Promise | Promise<unknown>}
+ */
+export const updateTask = (params) =>
+    api.put(Routes.serverUrlUpdateTask(),params);
 
 

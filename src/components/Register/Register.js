@@ -1,9 +1,8 @@
 import React from "react";
-import style from "./Register.module.scss";
+import styles from "./Register.module.scss";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-import {CurrentUserConsumer} from "../../context/CurrentUserContext";
-import {Redirect} from "react-router-dom";
+
 import {Formik} from "formik";
 
 class Register extends React.Component {
@@ -20,8 +19,8 @@ class Register extends React.Component {
         const {registerFn} = this.props;
         return (
             <>
-                <div className={style.wrapper}>
-                    <div className={style.form}>
+                <div className={styles.wrapper}>
+                    <div className={styles.form}>
                         <h2>Załóż konto</h2>
                         <Formik
                             initialValues={{...this.state.value}}
@@ -70,7 +69,7 @@ class Register extends React.Component {
                                            onChange={handleChange} errors={errors.ppassword}
                                            values={values.ppassword}/>
 
-                                    <div className={style.left}>
+                                    <div className={styles.left}>
                                         <Button>Zarejestruj się</Button>
                                     </div>
                                 </form>

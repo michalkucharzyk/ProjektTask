@@ -6,40 +6,34 @@ import Modal from "../Modal/Modal";
 import FormBoard from "../FormBoard/FormBoard";
 import Button from "../Button/Button";
 import * as _ from 'ramda';
-import FormBoardUpdate from "../FormBoard/FormBoardUpdate";
 
 
 class Board extends React.Component {
 
     state = {
         showModal: false,
-        insert: true,
-        currentBoard: null,
-        board: null,
+        idUser: this.props.user.id,
+        board: {},
         boards: []
     };
 
-    openModalInsert = () => {
+    openModal = () => {
         this.setState({
             showModal: true,
-            insert: true,
         })
     };
-    openModalUpdate = () => {
-        this.setState({
-            showModal: true,
-            insert: false,
-        })
-    };
+
 
     closeModal = () => {
         this.setState({
-            showModal: false
+            showModal: false,
+            board: {},
         })
     };
 
-    insertBoard = async (values, user) => {
-        const board = await boardApi.insertBoard({userId: user.id, ...values});
+    insertBoard = async (values) => {
+        const {idUser} = this.state;
+        const board = await boardApi.insertBoard({userId: idUser, ...values});
         if (board.success === true) {
             this.setState(prevState => ({
                 boards: [...prevState.boards, board.content]
@@ -50,13 +44,13 @@ class Board extends React.Component {
     };
 
     componentDidMount = async () => {
-        const {id} = this.props.user;
-        await this.getBoard(id);
+        await this.getBoard();
     };
 
-    getBoard = async (user) => {
-        if (user) {
-            const boards = await boardApi.getAllByUserId(user);
+    getBoard = async () => {
+        const {idUser} = this.state;
+        if (idUser) {
+            const boards = await boardApi.getAllByUserId(idUser);
             if (boards.success) {
                 this.setState({
                     boards: boards.content
@@ -83,17 +77,18 @@ class Board extends React.Component {
         });
     };
 
-    handleUpdateBoard = async (e, id) => {
-        e.preventDefault(e);
+    handleUpdateBoard = (e, id) => {
+        e.preventDefault();
         const {boards} = this.state;
         const {board} = this.findById(id, boards);
         this.setState({
-            currentBoard: board
+            board: board
         });
-        this.openModalUpdate();
+        this.openModal();
     };
 
     updateBoard = async (values) => {
+        console.log(values);
         const {boards} = this.state;
         const {index} = this.findById(values.id, boards);
         const response = await boardApi.updateBoard(values);
@@ -107,7 +102,7 @@ class Board extends React.Component {
 
 
     render() {
-        const {boards} = this.state;
+        const {boards,board} = this.state;
         return (
             <>
                 {boards.length ? (
@@ -125,16 +120,15 @@ class Board extends React.Component {
                 {this.state.showModal ? (
                     <>
                         <Modal closeModalFn={this.closeModal}>
-                            {this.state.insert
-                                ? <FormBoard InsertBoardFn={this.insertBoard}> </FormBoard>
-                                : <FormBoardUpdate board={this.state.currentBoard}
-                                                   UpdateBoardFn={this.updateBoard}> </FormBoardUpdate>
-                            }
+                            <FormBoard insertBoardFn={this.insertBoard}
+                                       updateBoardFn={this.updateBoard}
+                                       currentBoard={board}>
+                            </FormBoard>
                         </Modal>
                     </>
                 ) : null
                 }
-                <Button onClick={this.openModalInsert}>Dodaj grupe</Button>
+                <Button onClick={this.openModal}>Dodaj grupe</Button>
             </>
         )
     }

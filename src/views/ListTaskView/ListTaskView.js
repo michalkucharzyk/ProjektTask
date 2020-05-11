@@ -1,7 +1,6 @@
 import React from "react";
 import style from "./ListTaskView.module.scss"
 import {CurrentUserConsumer} from "../../context/CurrentUserContext";
-import Board from "../../components/Board/Board";
 import ListTask from "../../components/ListTask/ListTask";
 
 class ListTaskView extends React.Component {

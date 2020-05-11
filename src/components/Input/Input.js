@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './Input.module.scss';
 
 const Input = ({tag: Tag, type, name, label, maxLength, errors, ...props}) => (
+
     <div className={styles.formItem}>
         <Tag className={Tag === 'textarea' ? styles.textarea : styles.input} type={type} name={name} id={name}
              maxLength={maxLength} placeholder=" "

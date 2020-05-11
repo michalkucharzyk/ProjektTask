@@ -80,3 +80,6 @@ export const GetAllByBoardId = (id) =>
 export const serverUrlDeleteTask = (id) =>
     `${serverUrl}/Task/delete/${id}`;
 
+export const serverUrlUpdateTask = () =>
+    `${serverUrl}/Task/update`;
+

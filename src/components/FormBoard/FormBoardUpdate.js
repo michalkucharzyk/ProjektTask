@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./FormBoard.module.scss";
+import styles from "./FormBoard.module.scss";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import {CurrentUserConsumer} from "../../context/CurrentUserContext";
@@ -20,8 +20,8 @@ class FormBoardUpdate extends React.Component {
             <CurrentUserConsumer>
                 {({isLogged}) => (
                     <>
-                        <div className={style.wrapper}>
-                            <div className={style.form}>
+                        <div className={styles.wrapper}>
+                            <div className={styles.form}>
                                 <h2>Aktulizuj grupe</h2>
                                 <Formik
                                     initialValues={board}
@@ -56,7 +56,7 @@ class FormBoardUpdate extends React.Component {
                                                    onChange={handleChange} errors={errors.description}
                                                    value={values.description}/>
 
-                                            <div className={style.left}>
+                                            <div className={styles.left}>
                                                 <Button>Zapisz zmiany</Button>
                                             </div>
                                         </form>
