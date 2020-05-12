@@ -13,6 +13,7 @@ class Board extends React.Component {
     state = {
         showModal: false,
         idUser: this.props.user.id,
+        load: false,
         board: {},
         boards: []
     };
@@ -53,7 +54,8 @@ class Board extends React.Component {
             const boards = await boardApi.getAllByUserId(idUser);
             if (boards.success) {
                 this.setState({
-                    boards: boards.content
+                    boards: boards.content,
+                    load: true
                 })
             }
         }
@@ -102,21 +104,33 @@ class Board extends React.Component {
 
 
     render() {
-        const {boards,board} = this.state;
+        const {boards, board, load} = this.state;
         return (
             <>
-                {boards.length ? (
-                    <div className={styles.wrapper}>
-                        {boards.map(item =>
-                            <BoardItem deleteBoardFn={this.deleteBoard} handleUpdateBoardFn={this.handleUpdateBoard}
-                                       key={item.id} {...item}/>
-                        )}
-                    </div>
+                {load ? (
+                    <>
+                        {
+                            boards.length ? (
+                                <div className={styles.wrapper}>
+                                    {boards.map(item =>
+                                        <BoardItem deleteBoardFn={this.deleteBoard}
+                                                   handleUpdateBoardFn={this.handleUpdateBoard}
+                                                   key={item.id} {...item}/>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className={styles.noBoard}>
+                                    <p>Brak dodanych zadań</p>
+                                </div>
+                            )
+                        }
+                    </>
                 ) : (
                     <div className={styles.noBoard}>
-                        <p>Brak dodanych zadań</p>
+                        <p>Ladowanie tablicy</p>
                     </div>
                 )}
+
                 {this.state.showModal ? (
                     <>
                         <Modal closeModalFn={this.closeModal}>

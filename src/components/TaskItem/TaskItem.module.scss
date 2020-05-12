@@ -1,6 +1,34 @@
-.wrapper
+.wrapperButton
 {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  align-items: center;
+}
+.green
+{
+  background-color: #8fd19e;
+}
+
+.red{
+  background-color: #ed969e;
+}
+.orange {
+  background-color: #ffdf7e;
+}
+td
+{
+  color: #000;
+}
+.editButton
+{
+  margin: 0 10px;
+  font-size: 22px;
+  display: block;
+  color: #000;
+}
+
+.deleteButton
+{
+  @extend .editButton;
+  color: red;
 }

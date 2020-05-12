@@ -1,4 +1,29 @@
 .wrapper
 {
-  width: 100%;
+
 }
+.table
+{
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #fff;
+  background-color: #343a40;
+
+  thead th
+  {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+  }
+  tbody{
+    color: #818181;
+  }
+  td, th
+  {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #13c1a3;
+  }
+
+}
+

@@ -127,7 +127,7 @@ class ListTask extends React.Component {
             });
         }
         this.closeModal();
-    }
+    };
 
     /**
      * Renderowanie contentu
@@ -140,10 +140,23 @@ class ListTask extends React.Component {
             <>
                 {tasks.length ? (
                     <div className={styles.wrapper}>
-                        {tasks.map(item =>
-                            <TaskItem deleteTaskFn={this.deleteTask} handleUpdateTaskFn={this.handleUpdateTask}
-                                      key={item.id} {...item}/>
-                        )}
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tytuł</th>
+                                    <th>Opis</th>
+                                    <th>Status</th>
+                                    <th>Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tasks.map(item =>
+                                    <TaskItem deleteTaskFn={this.deleteTask} handleUpdateTaskFn={this.handleUpdateTask}
+                                              key={item.id} {...item}/>
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                 ) : (
                     <div>
