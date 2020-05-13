@@ -69,7 +69,7 @@ class ListTask extends React.Component {
         const response = await taskApi.insertTask({'boardId': idBoard, ...values});
         if (response.success === true) {
             this.setState(prevState => ({
-                tasks: [...prevState.tasks, response.content]
+                tasks: [response.content, ...prevState.tasks,]
             }));
 
             this.closeModal();

@@ -60,14 +60,14 @@ class FormTask extends React.Component {
                                 <form autoComplete="off" onSubmit={handleSubmit}>
                                     <div className={styles.formWrapperRadio}>
                                         <Radio id={types.active} name="status"
-                                               checked={values.status == types.active} changeFn={handleChange}
+                                               checked={parseInt(values.status) === types.active} changeFn={handleChange}
                                                value={types.active}>Aktywne
                                         </Radio>
                                         <Radio id={types.noactive} name="status"
-                                               checked={values.status == types.noactive}
+                                               checked={parseInt(values.status) === types.noactive}
                                                changeFn={handleChange} value={types.noactive}>Nie aktywne
                                         </Radio>
-                                        <Radio id={types.finish} checked={values.status == types.finish}
+                                        <Radio id={types.finish} checked={parseInt(values.status) === types.finish}
                                                name="status" changeFn={handleChange} value={types.finish}>Zakończone
                                         </Radio>
                                         {errors.status ? (

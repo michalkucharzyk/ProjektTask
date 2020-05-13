@@ -2,8 +2,9 @@ import React from "react";
 import styles from "./Register.module.scss";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-
 import {Formik} from "formik";
+import {regExpEmail, regExpPassword} from "../../helpers/define";
+import Popup from "../Popup/Popup";
 
 class Register extends React.Component {
     state = {
@@ -12,13 +13,17 @@ class Register extends React.Component {
             email: '',
             password: '',
             ppassword: ''
-        }
+        },
+        isRegister: this.props.isRegister
     };
 
+
     render() {
-        const {registerFn} = this.props;
+        const {registerFn, isRegister} = this.props;
+        console.log(isRegister);
         return (
             <>
+                {!isRegister ? (
                 <div className={styles.wrapper}>
                     <div className={styles.form}>
                         <h2>Załóż konto</h2>
@@ -33,9 +38,13 @@ class Register extends React.Component {
 
                                 if (!values.email)
                                     errors.email = "Podaj adres E-mail";
+                                else if (!regExpEmail.test(values.email))
+                                    errors.email = "Podaj adres E-mail w poprawnym formacie";
 
                                 if (!values.password)
                                     errors.password = "Pole hasło nie może być puste";
+                                else if (!regExpPassword.test(values.password))
+                                    errors.password = "7 do 15 znaków, które zawierają tylko znaki, cyfry, podkreślenie i pierwszy znak musi być literą";
 
                                 if (!values.ppassword || values.password !== values.ppassword)
                                     errors.ppassword = "Hasło muszą byc takie same";
@@ -78,6 +87,14 @@ class Register extends React.Component {
                         </Formik>
                     </div>
                 </div>
+                ) : (
+                    <>
+                        <Popup title="Rejestracja" type='success' text="Zostałeś pomyślanie zarejstrowany w systemie"
+                               show={true} urlRedirect = "/login"
+                        />
+
+                    </>
+                )}
             </>
         )
     }

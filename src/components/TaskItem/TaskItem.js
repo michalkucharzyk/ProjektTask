@@ -14,7 +14,7 @@ class TaskItem extends React.Component {
         const {id, title, content, status, deleteTaskFn, handleUpdateTaskFn} = this.props;
         return (
             <>
-                <tr className={status == 0 ? styles.green : status == 1 ? styles.red : styles.orange}>
+                <tr className={parseInt(status) === 0 ? styles.green : parseInt(status) === 1 ? styles.red : styles.orange}>
                     <td>#</td>
                     <td>{title}</td>
                     <td>{content}</td>

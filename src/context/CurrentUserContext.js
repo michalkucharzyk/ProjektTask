@@ -2,26 +2,26 @@ import React, {Component} from "react";
 import * as usersApi from "../helpers/UsersApi";
 
 const CurrentUserContext = React.createContext();
-
+let isRegister = false;
 export class CurrentUserProvider extends Component {
     state = {
-        isLogged: true,
+        isLogged: false,
         isRegister: false,
-        user: {
-            id:14
-        }
+        user: null
     };
 
     register = async (values) => {
         const user = await usersApi.userRegister({...values});
         if(user.success === true)
         {
+            console.log('sdasdas');
             this.setState({
                 isLogged: false,
                 isRegister: true,
                 user: user.content
             });
         }
+
     };
 
     login = async (values) => {
