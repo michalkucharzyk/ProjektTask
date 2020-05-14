@@ -16,3 +16,23 @@ body {
 a{
   text-decoration: none;
 }
+.popupConfirm--wrapper
+{
+  background: #13c0a3;
+  padding: 25px 45px;
+  box-sizing: border-box;
+  border-radius: 15px;
+
+  .popupConfirm__containerBtn
+  {
+    margin: 0 -15px;
+
+    button
+    {
+      margin: 15px;
+      border: 2px solid #22272b;
+      color: #fff;
+    }
+  }
+
+}

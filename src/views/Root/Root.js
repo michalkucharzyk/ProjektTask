@@ -1,5 +1,5 @@
 import React from "react";
-import "./index.css";
+import "./index.scss";
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import HomeView from "../HomeView/HomeView";
 import Header from "../../components/Header/Header";

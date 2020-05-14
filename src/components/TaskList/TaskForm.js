@@ -1,17 +1,18 @@
 import React from "react";
-import styles from "./FormTask.module.scss";
+import styles from "./TaskForm.module.scss";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import {Formik} from "formik";
 import Radio from "../FormRadio/FormRadio";
+import * as yup from 'yup';
 
 const types = {
     active: 0,
-    noactive: 1,
-    finish: 2,
+    notDone: 1,
+    done: 2,
 };
 
-class FormTask extends React.Component {
+class TaskForm extends React.Component {
     state = {
         value: {
             title: '',
@@ -19,6 +20,21 @@ class FormTask extends React.Component {
             status: '',
         }
     };
+
+    validationSchema = () => yup.object().shape({
+        title : yup
+            .string()
+            .required("Podaj tytul zadania")
+            .label("Tytuł"),
+        content : yup
+            .string()
+            .required("Podaj opis zadania")
+            .label("Opis zadania"),
+        status : yup
+            .string()
+            .required("Podaj status zadania")
+            .label("Status")
+    });
 
     render() {
         const {insertTaskFn, updateTaskFn, currentTask} = this.props;
@@ -30,23 +46,10 @@ class FormTask extends React.Component {
                         <h2>Dodaj zadanie</h2>
                         <Formik
                             initialValues={task}
-                            onSubmit={(values) => (
-                                task.id ?  updateTaskFn(values) : insertTaskFn(values)
+                            onSubmit={(values,actions) => (
+                                task.id ?  updateTaskFn(values,actions) : insertTaskFn(values,actions)
                             )}
-                            validate={values => {
-
-                                let errors = {};
-                                if (!values.title)
-                                    errors.title = "Podaj nazwę użytkownika";
-
-                                if (!values.content)
-                                    errors.content = "Podaj opis zadania";
-
-                                if (!values.status)
-                                    errors.status = "Podaj status";
-
-                                return errors
-                            }}
+                            validationSchema={this.validationSchema}
                         >{
                             ({
                                  values,
@@ -63,12 +66,12 @@ class FormTask extends React.Component {
                                                checked={parseInt(values.status) === types.active} changeFn={handleChange}
                                                value={types.active}>Aktywne
                                         </Radio>
-                                        <Radio id={types.noactive} name="status"
-                                               checked={parseInt(values.status) === types.noactive}
-                                               changeFn={handleChange} value={types.noactive}>Nie aktywne
+                                        <Radio id={types.notDone} name="status"
+                                               checked={parseInt(values.status) === types.notDone}
+                                               changeFn={handleChange} value={types.notDone}>Nie zrobione
                                         </Radio>
-                                        <Radio id={types.finish} checked={parseInt(values.status) === types.finish}
-                                               name="status" changeFn={handleChange} value={types.finish}>Zakończone
+                                        <Radio id={types.done} checked={parseInt(values.status) === types.done}
+                                               name="status" changeFn={handleChange} value={types.done}>Zrobione
                                         </Radio>
                                         {errors.status ? (
                                             <p className={styles.formWrapperRadioErrors}>{errors.status}</p>) : ''}
@@ -95,4 +98,4 @@ class FormTask extends React.Component {
     }
 }
 
-export default FormTask
+export default TaskForm

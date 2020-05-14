@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./ListTaskView.module.scss"
 import {CurrentUserConsumer} from "../../context/CurrentUserContext";
-import ListTask from "../../components/ListTask/ListTask";
+import TaskList from "../../components/TaskList/TaskList";
 
 class ListTaskView extends React.Component {
   render() {
@@ -13,7 +13,7 @@ class ListTaskView extends React.Component {
                         <>
                             <div className={style.wrapper}>
                                 <h2>Zadan dla grupy: {name}</h2>
-                                <ListTask nameBoard={name} idBoard={id} />
+                                <TaskList nameBoard={name} idBoard={id} />
                             </div>
                         </>
                     )

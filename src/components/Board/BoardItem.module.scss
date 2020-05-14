@@ -38,16 +38,16 @@
 .editButton
 {
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 10px;
+  left: 10px;
   color:#ddd;
-  font-size: 25px;
+  font-size: 20px;
   background: transparent;
 }
 .deleteButton
 {
   @extend .editButton;
-  right: 5px;
+  right: 10px;
   left: auto;
   color: #dc3545;
 }

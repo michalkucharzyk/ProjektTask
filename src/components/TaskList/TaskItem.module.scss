@@ -1,0 +1,48 @@
+@keyframes appear {
+  0% {
+    opacity: 0;
+    top: 50px;
+  }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+tr {
+  animation: appear .5s ease;
+}
+
+td {
+  color: #000;
+}
+
+.wrapperButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editButton {
+  margin: 0 10px;
+  font-size: 22px;
+  display: block;
+  color: #000;
+}
+
+.deleteButton {
+  @extend .editButton;
+  color: red;
+}
+
+.green {
+  background-color: #8fd19e;
+}
+
+.red {
+  background-color: #ed969e;
+}
+
+.orange {
+  background-color: #ffdf7e;
+}

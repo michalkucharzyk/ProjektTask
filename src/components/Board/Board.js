@@ -33,19 +33,6 @@ class Board extends React.Component {
         })
     };
 
-    insertBoard = async (values, actions) => {
-        const {idUser} = this.state;
-        const response = await boardApi.insertBoard({userId: idUser, ...values});
-        if (response.success === true) {
-            this.setState(prevState => ({
-                boards: [...prevState.boards, response.content]
-            }));
-            this.closeModal();
-        } else {
-            actions.setFieldError("name", response.message)
-        }
-    };
-
     componentDidMount = async () => {
         await this.getBoard();
     };
@@ -71,7 +58,21 @@ class Board extends React.Component {
         }
     };
 
-    deleteBoard = async (e, id) =>
+
+    insertBoard = async (values, actions) => {
+        const {idUser} = this.state;
+        const response = await boardApi.insertBoard({userId: idUser, ...values});
+        if (response.success === true) {
+            this.setState(prevState => ({
+                boards: [...prevState.boards, response.content]
+            }));
+            this.closeModal();
+        } else {
+            actions.setFieldError("name", response.message)
+        }
+    };
+
+    deleteBoard = async (id) =>
     {
         const {boards} = this.state;
         await boardApi.deleteBoard(id);
@@ -81,21 +82,29 @@ class Board extends React.Component {
         });
     };
 
-    handleDeleteBoard = (e,id) => {
+    handleDeleteBoard = async (e,id) => {
         e.preventDefault();
         confirmAlert({
-            title: "Potwierdź usuwanie",
-            message: "Czy napewno chcesz usunać tą tablicę",
-            buttons: [
-                {
-                    label: 'Tak',
-                    onClick: () => this.deleteBoard(e, id)
-                }, {
-                    label: 'No',
-                    onClick: () => alert('Click No')
-                }
-            ]
-        })
+            customUI: ({ onClose }) => {
+                return (
+                    <div className="popupConfirm--wrapper">
+                        <h1>Czy jesteś pewny?</h1>
+                        <p>Chesz usunąc ten wpis?</p>
+                        <div className="popupConfirm__containerBtn">
+                        <Button onClick={onClose}>Nie</Button>
+                            <Button
+                                onClick={() => {
+                                    this.deleteBoard(id);
+                                    onClose();
+                                }}
+                            >
+                                Tak
+                            </Button>
+                        </div>
+                    </div>
+                );
+            }
+        });
     };
 
     handleUpdateBoard = (e, id) => {
@@ -108,7 +117,7 @@ class Board extends React.Component {
         this.openModal();
     };
 
-    updateBoard = async (values) => {
+    updateBoard = async (values,actions) => {
         console.log(values);
         const {boards} = this.state;
         const {index} = this.findById(values.id, boards);
@@ -117,8 +126,11 @@ class Board extends React.Component {
             this.setState({
                 boards: _.update(index, values, boards)
             });
+            this.closeModal();
+        }else {
+            actions.setFieldError("name", response.message)
         }
-        this.closeModal();
+
     };
 
 

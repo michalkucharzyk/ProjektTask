@@ -10,6 +10,7 @@ export class CurrentUserProvider extends Component {
             email: "sDASDASD ASDASDAS"
         }
     };
+
     login = async (values, actions) => {
         const response = await usersApi.userLogin({email: values.email, password: values.password});
         if (response.success === true) {
@@ -26,7 +27,7 @@ export class CurrentUserProvider extends Component {
         this.setState({
             isLogged: false,
             user: null
-        })
+        });
     };
 
     render() {

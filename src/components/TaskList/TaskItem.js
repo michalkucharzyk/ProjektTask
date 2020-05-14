@@ -5,8 +5,8 @@ import {faEdit} from "@fortawesome/free-solid-svg-icons";
 import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 const types = {
     0: "Aktywne",
-    1: "Nie aktywne",
-    2: "Do zrobienia",
+    1: "Nie zrobione",
+    2: "Zrobione",
 };
 
 class TaskItem extends React.Component {

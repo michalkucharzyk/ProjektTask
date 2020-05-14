@@ -2,21 +2,23 @@ import React from "react";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import * as taskApi from "../../helpers/TaskApi";
-import FormTask from "../FormTask/FormTask";
-import TaskItem from "../TaskItem/TaskItem";
-import styles from "./ListTask.module.scss";
+import TaskForm from "./TaskForm";
+import TaskItem from "./TaskItem";
+import styles from "./TaskList.module.scss";
 import * as _ from "ramda";
+import {confirmAlert} from "react-confirm-alert";
 
-class ListTask extends React.Component {
+
+class TaskList extends React.Component {
     state = {
         showModal: false,
-        idBoard:  this.props.idBoard,
+        idBoard: this.props.idBoard,
         task: {},
         tasks: [],
     };
 
     /**
-     * Pobranie danych
+     *
      * @returns {Promise<void>}
      */
     componentDidMount = async () => {
@@ -24,7 +26,7 @@ class ListTask extends React.Component {
     };
 
     /**
-     * Pobranie taskow dla wskaznej tablicy
+     *
      * @returns {Promise<void>}
      */
     getTasks = async () => {
@@ -40,7 +42,7 @@ class ListTask extends React.Component {
     };
 
     /**
-     * Otwarcie formularz dodawania
+     *
      */
     openModal = () => {
         this.setState({
@@ -49,35 +51,38 @@ class ListTask extends React.Component {
     };
 
     /**
-     * Zamknięcie formularz dodwania
+     *
      */
     closeModal = () => {
         this.setState({
             showModal: false,
-            task:{}
+            task: {}
         });
     };
 
     /**
-     * Obsługa dodawania taskow do bazy
+     *
      * @param values
+     * @param actions
      * @returns {Promise<void>}
      * @constructor
      */
-    insertTask = async (values) => {
+    insertTask = async (values, actions) => {
         const {idBoard} = this.state;
         const response = await taskApi.insertTask({'boardId': idBoard, ...values});
+
         if (response.success === true) {
             this.setState(prevState => ({
                 tasks: [response.content, ...prevState.tasks,]
             }));
-
             this.closeModal();
+        } else {
+            actions.setFieldError("title", response.message)
         }
     };
 
     /**
-     * Funkcja wyszukujaca index i element w tablicy o wskaznym id
+     *
      * @param id
      * @param arr
      * @returns {{index: any, board: *}}
@@ -91,7 +96,35 @@ class ListTask extends React.Component {
     };
 
     /**
-     * Usuwanie tasków z bazy
+     *
+     * @param id
+     */
+    handleDeleteTask = async (id) => {
+        confirmAlert({
+            customUI: ({onClose}) => {
+                return (
+                    <div className="popupConfirm--wrapper">
+                        <h1>Czy jesteś pewny?</h1>
+                        <p>Chesz usunąc ten wpis?</p>
+                        <div className="popupConfirm__containerBtn">
+                            <Button onClick={onClose}>Nie</Button>
+                            <Button
+                                onClick={() => {
+                                    this.deleteTask(id);
+                                    onClose();
+                                }} >
+                                Tak
+                            </Button>
+                        </div>
+                    </div>
+                );
+            }
+        });
+    };
+
+
+    /**
+     *
      * @param e
      * @param id
      * @returns {Promise<void>}
@@ -105,10 +138,14 @@ class ListTask extends React.Component {
         });
     };
 
-    handleUpdateTask = async (id) =>
-    {
+    /**
+     *
+     * @param id
+     * @returns {Promise<void>}
+     */
+    handleUpdateTask = async (id) => {
         const {tasks} = this.state;
-        const{task} = this.findById(id, tasks);
+        const {task} = this.findById(id, tasks);
         this.setState({
             task: task
         });
@@ -116,7 +153,13 @@ class ListTask extends React.Component {
 
     };
 
-    updateTask = async (values) =>{
+    /**
+     *
+     * @param values
+     * @param actions
+     * @returns {Promise<void>}
+     */
+    updateTask = async (values, actions) => {
         const {tasks} = this.state;
         const {index} = this.findById(values.id, tasks);
         const response = await taskApi.updateTask(values);
@@ -125,12 +168,15 @@ class ListTask extends React.Component {
             this.setState({
                 tasks: _.update(index, values, tasks)
             });
+            this.closeModal();
+        } else {
+            actions.setFieldError("title", response.message)
         }
-        this.closeModal();
+
     };
 
     /**
-     * Renderowanie contentu
+     *
      * @returns {*}
      */
     render() {
@@ -142,19 +188,19 @@ class ListTask extends React.Component {
                     <div className={styles.wrapper}>
                         <table className={styles.table}>
                             <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tytuł</th>
-                                    <th>Opis</th>
-                                    <th>Status</th>
-                                    <th>Akcje</th>
-                                </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Tytuł</th>
+                                <th>Opis</th>
+                                <th>Status</th>
+                                <th>Akcje</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {tasks.map(item =>
-                                    <TaskItem deleteTaskFn={this.deleteTask} handleUpdateTaskFn={this.handleUpdateTask}
-                                              key={item.id} {...item}/>
-                                )}
+                            {tasks.map(item =>
+                                <TaskItem deleteTaskFn={this.handleDeleteTask} handleUpdateTaskFn={this.handleUpdateTask}
+                                          key={item.id} {...item}/>
+                            )}
                             </tbody>
                         </table>
                     </div>
@@ -166,7 +212,8 @@ class ListTask extends React.Component {
                 {this.state.showModal ? (
                     <>
                         <Modal closeModalFn={this.closeModal}>
-                            <FormTask insertTaskFn={this.insertTask} updateTaskFn={this.updateTask} currentTask={task}> </FormTask>
+                            <TaskForm insertTaskFn={this.insertTask} updateTaskFn={this.updateTask}
+                                      currentTask={task}> </TaskForm>
                         </Modal>
                     </>
                 ) : null}
@@ -176,4 +223,4 @@ class ListTask extends React.Component {
     }
 }
 
-export default ListTask
+export default TaskList
