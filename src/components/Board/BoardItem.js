@@ -16,7 +16,6 @@ class BoardItem extends React.Component {
                     <div onClick={(e) => handleUpdateBoardFn(e, id)}><FontAwesomeIcon className={styles.editButton} icon ={faEdit}/></div>
                     <h2 className={styles.title}>{name}</h2>
                     <p className={styles.text}>{description}</p>
-
                 </Link>
             </div>
         )

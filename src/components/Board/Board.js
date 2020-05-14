@@ -6,7 +6,8 @@ import Modal from "../Modal/Modal";
 import BoardForm from "./BoardForm";
 import Button from "../Button/Button";
 import * as _ from 'ramda';
-
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class Board extends React.Component {
 
@@ -70,14 +71,31 @@ class Board extends React.Component {
         }
     };
 
-    deleteBoard = async (e, id) => {
-        e.preventDefault();
+    deleteBoard = async (e, id) =>
+    {
         const {boards} = this.state;
         await boardApi.deleteBoard(id);
         const {index} = this.findById(id, boards);
         this.setState({
             boards: _.remove(index, 1, boards)
         });
+    };
+
+    handleDeleteBoard = (e,id) => {
+        e.preventDefault();
+        confirmAlert({
+            title: "Potwierdź usuwanie",
+            message: "Czy napewno chcesz usunać tą tablicę",
+            buttons: [
+                {
+                    label: 'Tak',
+                    onClick: () => this.deleteBoard(e, id)
+                }, {
+                    label: 'No',
+                    onClick: () => alert('Click No')
+                }
+            ]
+        })
     };
 
     handleUpdateBoard = (e, id) => {
@@ -114,7 +132,7 @@ class Board extends React.Component {
                             boards.length ? (
                                 <div className={styles.wrapper}>
                                     {boards.map(item =>
-                                        <BoardItem deleteBoardFn={this.deleteBoard}
+                                        <BoardItem deleteBoardFn={this.handleDeleteBoard}
                                                    handleUpdateBoardFn={this.handleUpdateBoard}
                                                    key={item.id} {...item}/>
                                     )}
@@ -131,7 +149,6 @@ class Board extends React.Component {
                         <p>Ladowanie tablicy</p>
                     </div>
                 )}
-
                 {this.state.showModal ? (
                     <>
                         <Modal closeModalFn={this.closeModal}>
