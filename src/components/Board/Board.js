@@ -3,7 +3,7 @@ import * as boardApi from "../../helpers/BoardApi";
 import styles from './Board.module.scss';
 import BoardItem from "./BoardItem";
 import Modal from "../Modal/Modal";
-import FormBoard from "../FormBoard/FormBoard";
+import BoardForm from "./BoardForm";
 import Button from "../Button/Button";
 import * as _ from 'ramda';
 
@@ -32,15 +32,16 @@ class Board extends React.Component {
         })
     };
 
-    insertBoard = async (values) => {
+    insertBoard = async (values, actions) => {
         const {idUser} = this.state;
-        const board = await boardApi.insertBoard({userId: idUser, ...values});
-        if (board.success === true) {
+        const response = await boardApi.insertBoard({userId: idUser, ...values});
+        if (response.success === true) {
             this.setState(prevState => ({
-                boards: [...prevState.boards, board.content]
+                boards: [...prevState.boards, response.content]
             }));
-
             this.closeModal();
+        } else {
+            actions.setFieldError("name", response.message)
         }
     };
 
@@ -134,10 +135,10 @@ class Board extends React.Component {
                 {this.state.showModal ? (
                     <>
                         <Modal closeModalFn={this.closeModal}>
-                            <FormBoard insertBoardFn={this.insertBoard}
+                            <BoardForm insertBoardFn={this.insertBoard}
                                        updateBoardFn={this.updateBoard}
                                        currentBoard={board}>
-                            </FormBoard>
+                            </BoardForm>
                         </Modal>
                     </>
                 ) : null

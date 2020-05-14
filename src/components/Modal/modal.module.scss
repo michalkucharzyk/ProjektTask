@@ -1,3 +1,15 @@
+@keyframes appear {
+  0% {
+    opacity: 0;
+    top: 100%;
+  }
+  100% {
+    opacity: 1;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
 .wrapper {
   top: 50%;
   transform: translateY(-50%);
@@ -11,6 +23,7 @@
   width: 60vw;
   height: 80vh;
   max-width: 600px;
+  animation: appear .5s ease;
 }
 
 .closeButton {

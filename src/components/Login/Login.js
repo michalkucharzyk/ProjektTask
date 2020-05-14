@@ -35,7 +35,7 @@ class Login extends React.Component {
                         <h2>Zaloguj się</h2>
                         <Formik
                             initialValues={{...this.state.value}}
-                            onSubmit={(values,action) => loginFn(values, action)}
+                            onSubmit={(values,actions) => loginFn(values, actions)}
                             validationSchema={this.validationSchema}
                         >{
                             ({
