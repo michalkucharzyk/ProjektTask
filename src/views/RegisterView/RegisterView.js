@@ -3,7 +3,6 @@ import styles from "./RegisterView.module.scss"
 import Register from "../../components/Register/Register";
 import {CurrentUserConsumer} from "../../context/CurrentUserContext";
 import {Redirect} from "react-router-dom";
-import Popup from "../../components/Popup/Popup"
 
 
 class RegisterView extends React.Component {
@@ -12,11 +11,11 @@ class RegisterView extends React.Component {
         return (
             <CurrentUserConsumer>
                 {
-                    ({isLogged, isRegister, register}) => (
+                    ({isLogged}) => (
                         <>
                             {isLogged && <Redirect to={homePage}/>}
                                 <div className={styles.wrapper}>
-                                    <Register isRegister={isRegister} registerFn={register}/>
+                                    <Register />
                                 </div>
 
                         </>

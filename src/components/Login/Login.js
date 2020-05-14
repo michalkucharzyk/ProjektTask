@@ -3,7 +3,7 @@ import styles from "./Login.module.scss";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import {Formik} from "formik";
-import * as _ from 'ramda';
+import * as yup from 'yup';
 
 
 class Login extends React.Component {
@@ -14,6 +14,18 @@ class Login extends React.Component {
         },
     };
 
+    validationSchema = () => yup.object().shape({
+        email: yup
+            .string()
+            .label("Email")
+            .email("Podaj poprawny adress email")
+            .required("Pole Email jest wymagane"),
+        password: yup
+            .string()
+            .label("Hasło")
+            .required("Podaj hasło")
+    });
+
     render() {
         const {loginFn} = this.props;
         return (
@@ -23,23 +35,8 @@ class Login extends React.Component {
                         <h2>Zaloguj się</h2>
                         <Formik
                             initialValues={{...this.state.value}}
-                            onSubmit={(values) => loginFn(values)}
-                            validate={(values => {
-                                let errors = {};
-
-                                if (!values.email)
-                                    errors.email = "Podaj nazwę użytkownika";
-
-                                if (!values.password)
-                                    errors.password = "Podaj hasło";
-
-                                if (_.isEmpty(errors))
-                                    this.setState({disabled: false});
-                                else
-                                    this.setState({disabled: true});
-
-                                return errors;
-                            })}
+                            onSubmit={(values,action) => loginFn(values, action)}
+                            validationSchema={this.validationSchema}
                         >{
                             ({
                                  values,

@@ -1,5 +1,5 @@
-import * as Routes from "./routes"
-import * as api from './api'
+import * as Routes from "./Routes"
+import * as api from './Api'
 
 export const insertBoard = params =>
     api.post(Routes.serverUrlBoardInsert(), params);

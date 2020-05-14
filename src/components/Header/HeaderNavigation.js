@@ -8,41 +8,46 @@ class HeaderNavigation extends React.Component {
     render() {
         return (
             <CurrentUserConsumer>
-                {({isLogged, logout}) => (
+                {({isLogged, logout, user,}) => (
                     <nav className={styles.wrapper}>
                         {isLogged ? (
-                            <ul className={styles.wrapperLeft}>
-                                <li className={styles.navItem}>
-                                    <NavLink exact activeClassName={styles.navItemLinkActive}
-                                             className={styles.navItemLink}
-                                             to="/dashboard">
-                                        Start
-                                    </NavLink>
-                                </li>
-                                <li className={styles.navItem}>
-                                    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
-                                             to="/articles">
-                                        Aktywne
-                                    </NavLink>
-                                </li>
-                                <li className={styles.navItem}>
-                                    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
-                                             to="/notes">
-                                        Wykonane
-                                    </NavLink>
-                                </li>
-                                <li className={styles.navItem}>
-                                    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
-                                             to="/notes">
-                                        Nie wykonane
-                                    </NavLink>
-                                </li>
-                                <li className={styles.navItem}>
-                                    <p className={styles.navItemLink} onClick={logout}>Wyloguj</p>
-                                </li>
-                            </ul>
+                            <>
+                                <ul className={styles.wrapperLeft}>
+                                    <li className={styles.navItem}>
+                                        <NavLink exact activeClassName={styles.navItemLinkActive}
+                                                 className={styles.navItemLink}
+                                                 to="/dashboard">
+                                            Start
+                                        </NavLink>
+                                    </li>
+                                    <li className={styles.navItem}>
+                                        <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
+                                                 to="/articles">
+                                            Aktywne
+                                        </NavLink>
+                                    </li>
+                                    <li className={styles.navItem}>
+                                        <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
+                                                 to="/notes">
+                                            Wykonane
+                                        </NavLink>
+                                    </li>
+                                    <li className={styles.navItem}>
+                                        <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
+                                                 to="/notes">
+                                            Nie wykonane
+                                        </NavLink>
+                                    </li>
+                                    <li className={styles.navItem}>
+                                        <p className={styles.navItemLink} onClick={logout}>Wyloguj</p>
+                                    </li>
+                                </ul>
+                                <div className={styles.userInfo}>
+                                    <p>Witaj <span>{user.email}</span></p>
+                                </div>
+                            </>
                         ) : (
-                            <ul className={styles.wrapperLeft}>
+                            <ul className={styles.wrapperRight}>
                                 <li className={styles.navItem}>
                                     <NavLink exact activeClassName={styles.navItemLinkActive}
                                              className={styles.navItemLink}

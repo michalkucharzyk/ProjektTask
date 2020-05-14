@@ -2,35 +2,23 @@ import React, {Component} from "react";
 import * as usersApi from "../helpers/UsersApi";
 
 const CurrentUserContext = React.createContext();
-let isRegister = false;
 export class CurrentUserProvider extends Component {
     state = {
-        isLogged: false,
-        isRegister: false,
-        user: null
-    };
-
-    register = async (values) => {
-        const user = await usersApi.userRegister({...values});
-        if(user.success === true)
-        {
-            console.log('sdasdas');
-            this.setState({
-                isLogged: false,
-                isRegister: true,
-                user: user.content
-            });
+        isLogged: true,
+        user: {
+            id: 56,
+            email: "sDASDASD ASDASDAS"
         }
-
     };
-
-    login = async (values) => {
-        const user = await usersApi.userLogin({email: values.email, password: values.password});
-        if (user.success === true) {
+    login = async (values, actions) => {
+        const response = await usersApi.userLogin({email: values.email, password: values.password});
+        if (response.success === true) {
             this.setState({
                 isLogged: true,
-                user: user.content
+                user: response.content
             });
+        }else {
+            actions.setFieldError("email",response.message)
         }
     };
 
@@ -47,11 +35,9 @@ export class CurrentUserProvider extends Component {
             <CurrentUserContext.Provider
                 value={{
                     login: this.login,
-                    register: this.register,
                     logout: this.logout,
                     user: this.state.user,
-                    isLogged: this.state.isLogged,
-                    isRegister: this.state.isRegister,
+                    isLogged: this.state.isLogged
                 }}
             >
                 {children}

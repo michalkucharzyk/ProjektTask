@@ -3,54 +3,74 @@ import styles from "./Register.module.scss";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
 import {Formik} from "formik";
-import {regExpEmail, regExpPassword} from "../../helpers/define";
+import {regExpPassword} from "../../helpers/Define";
 import Popup from "../Popup/Popup";
+import * as usersApi from "../../helpers/UsersApi";
+import * as yup from 'yup';
 
 class Register extends React.Component {
     state = {
+        registerSuccess: false,
+
         value: {
             name: '',
             email: '',
             password: '',
-            ppassword: ''
+            confirmPassword: ''
         },
-        isRegister: this.props.isRegister
     };
+
+    register = async (values, actions) => {
+        const response = await usersApi.userRegister({...values});
+        console.log(response);
+        if(response.success === true)
+        {
+            this.setState({
+                registerSuccess: true,
+            })
+        }else {
+            actions.setFieldError("name",response.message)
+        }
+    };
+
+    validationSchema = () => yup.object().shape({
+        email: yup
+            .string()
+            .label("Email")
+            .email("Podaj poprawny format adresu Email")
+            .required("Pole Email jest wymagane"),
+        name : yup
+            .string()
+            .label("Nazwa uzytkownika")
+            .required("Podaj nazwę użytkownika"),
+        password : yup
+            .string()
+            .label("Hasło")
+            .required("Pole hasło nie może być puste")
+            .matches(regExpPassword,{message:"7 do 15 znaków, które zawierają tylko znaki, cyfry, podkreślenie i pierwszy znak musi być literą"}),
+        confirmPassword: yup
+            .string()
+            .label("Powtórz hasło")
+            .test("passwords-match","Hasło muszą być takie same", function (value) {
+                   return value === this.parent.password
+                }
+            )
+
+    });
 
 
     render() {
-        const {registerFn, isRegister} = this.props;
-        console.log(isRegister);
+        const {registerSuccess} = this.state;
         return (
             <>
-                {!isRegister ? (
+                {!registerSuccess ? (
                 <div className={styles.wrapper}>
                     <div className={styles.form}>
                         <h2>Załóż konto</h2>
                         <Formik
                             initialValues={{...this.state.value}}
-                            onSubmit={(values) => registerFn(values)}
-                            validate={values => {
-                                let errors = {};
-
-                                if (!values.name)
-                                    errors.name = "Podaj nazwę użytkownika";
-
-                                if (!values.email)
-                                    errors.email = "Podaj adres E-mail";
-                                else if (!regExpEmail.test(values.email))
-                                    errors.email = "Podaj adres E-mail w poprawnym formacie";
-
-                                if (!values.password)
-                                    errors.password = "Pole hasło nie może być puste";
-                                else if (!regExpPassword.test(values.password))
-                                    errors.password = "7 do 15 znaków, które zawierają tylko znaki, cyfry, podkreślenie i pierwszy znak musi być literą";
-
-                                if (!values.ppassword || values.password !== values.ppassword)
-                                    errors.ppassword = "Hasło muszą byc takie same";
-
-                                return errors
-                            }}
+                            onSubmit={(values, actions) => this.register(values, actions)}
+                            validationSchema={this.validationSchema}
                         >{
                             ({
                                  values,
@@ -66,7 +86,7 @@ class Register extends React.Component {
                                            onChange={handleChange} errors={errors.name}
                                            values={values.name}/>
 
-                                    <Input name="email" label="E-mail" maxLength={30} type="text"
+                                    <Input name="email" label="Email" maxLength={30} type="text"
                                            onChange={handleChange} errors={errors.email}
                                            values={values.email}/>
 
@@ -74,9 +94,9 @@ class Register extends React.Component {
                                            onChange={handleChange} errors={errors.password}
                                            values={values.password}/>
 
-                                    <Input name="ppassword" label="Powtórz hasło" maxLength={30} type="password"
-                                           onChange={handleChange} errors={errors.ppassword}
-                                           values={values.ppassword}/>
+                                    <Input name="confirmPassword" label="Powtórz hasło" maxLength={30} type="password"
+                                           onChange={handleChange} errors={errors.confirmPassword}
+                                           values={values.confirmPassword}/>
 
                                     <div className={styles.left}>
                                         <Button>Zarejestruj się</Button>
@@ -92,7 +112,6 @@ class Register extends React.Component {
                         <Popup title="Rejestracja" type='success' text="Zostałeś pomyślanie zarejstrowany w systemie"
                                show={true} urlRedirect = "/login"
                         />
-
                     </>
                 )}
             </>

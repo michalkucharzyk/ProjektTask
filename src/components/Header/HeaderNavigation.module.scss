@@ -2,14 +2,30 @@
   max-width: 1440px;
   width: 90%;
   margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
   &Left{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .Right{
     display: flex;
     align-items: center;
     justify-content: flex-end;
   }
 }
+.userInfo
+{
+  color: #13c1a3;
+  font-weight: 300;
 
+  span{
+    font-weight: 700;
+  }
+}
 .navItem {
   display: inline;
   margin-right: 35px;
