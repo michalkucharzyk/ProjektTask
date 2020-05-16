@@ -4,11 +4,14 @@ import * as usersApi from "../helpers/UsersApi";
 const CurrentUserContext = React.createContext();
 export class CurrentUserProvider extends Component {
     state = {
-        isLogged: true,
-        user: {
-            id: 56,
-            email: "sDASDASD ASDASDAS"
-        }
+        isLogged: false,
+        user: {}
+    };
+    componentDidMount = () => {
+            this.setState({
+                user: JSON.parse(localStorage.getItem('user')),
+                isLogged: (localStorage.getItem('isLogged') === '1')
+            });
     };
 
     login = async (values, actions) => {
@@ -16,8 +19,11 @@ export class CurrentUserProvider extends Component {
         if (response.success === true) {
             this.setState({
                 isLogged: true,
-                user: response.content
+                user: {...response.content}
             });
+
+            localStorage.setItem('user',JSON.stringify(response.content));
+            localStorage.setItem('isLogged',"1");
         }else {
             actions.setFieldError("email",response.message)
         }
@@ -28,6 +34,8 @@ export class CurrentUserProvider extends Component {
             isLogged: false,
             user: null
         });
+        localStorage.removeItem('user');
+        localStorage.removeItem('isLogged');
     };
 
     render() {
