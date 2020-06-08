@@ -29,7 +29,7 @@ class BoardForm extends React.Component {
             <>
                 <div className={styles.wrapper}>
                     <div className={styles.form}>
-                        <h2>Dodaj grupę</h2>
+                        { board.id ? <h2>Edytuj grupę: <span className={styles.defaultsText}>{board.name}</span></h2>: <h2>Dodaj grupę</h2>}
                         <Formik
                             initialValues={board}
                             onSubmit={(values,actions) => (
@@ -56,7 +56,8 @@ class BoardForm extends React.Component {
                                            value={values.description}/>
 
                                     <div className={styles.left}>
-                                        <Button>Dodaj</Button>
+                                        { board.id ?  <Button>Zapisz</Button>:  <Button>Dodaj</Button>}
+
                                     </div>
                                 </form>
                             )

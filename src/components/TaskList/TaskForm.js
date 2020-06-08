@@ -43,7 +43,7 @@ class TaskForm extends React.Component {
             <>
                 <div className={styles.wrapper}>
                     <div className={styles.form}>
-                        <h2>Dodaj zadanie</h2>
+                        { task.id ? <h2>Edytuj zadanie: <span className={styles.defaultsText}>{task.title}</span></h2>: <h2>Dodaj zadanie</h2>}
                         <Formik
                             initialValues={task}
                             onSubmit={(values,actions) => (
@@ -85,7 +85,9 @@ class TaskForm extends React.Component {
                                            onChange={handleChange} errors={errors.content}
                                            value={values.content}/>
 
-                                    <div className={styles.left}><Button>Dodaj</Button>
+                                    <div className={styles.left}>
+                                        { task.id ? <Button>Zapisz zadanie</Button>: <Button>Dodaj zadanie</Button>}
+
                                     </div>
                                 </form>
                             )

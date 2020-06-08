@@ -20,24 +20,24 @@ class HeaderNavigation extends React.Component {
                                             Start
                                         </NavLink>
                                     </li>
-                                    <li className={styles.navItem}>
-                                        <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
-                                                 to="/articles">
-                                            Aktywne
-                                        </NavLink>
-                                    </li>
-                                    <li className={styles.navItem}>
-                                        <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
-                                                 to="/notes">
-                                            Wykonane
-                                        </NavLink>
-                                    </li>
-                                    <li className={styles.navItem}>
-                                        <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}
-                                                 to="/notes">
-                                            Nie wykonane
-                                        </NavLink>
-                                    </li>
+                                    {/*<li className={styles.navItem}>*/}
+                                    {/*    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}*/}
+                                    {/*             to="/articles">*/}
+                                    {/*        Aktywne*/}
+                                    {/*    </NavLink>*/}
+                                    {/*</li>*/}
+                                    {/*<li className={styles.navItem}>*/}
+                                    {/*    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}*/}
+                                    {/*             to="/notes">*/}
+                                    {/*        Wykonane*/}
+                                    {/*    </NavLink>*/}
+                                    {/*</li>*/}
+                                    {/*<li className={styles.navItem}>*/}
+                                    {/*    <NavLink activeClassName={styles.navItemLinkActive} className={styles.navItemLink}*/}
+                                    {/*             to="/notes">*/}
+                                    {/*        Nie wykonane*/}
+                                    {/*    </NavLink>*/}
+                                    {/*</li>*/}
                                     <li className={styles.navItem}>
                                         <p className={styles.navItemLink} onClick={logout}>Wyloguj</p>
                                     </li>
