@@ -181,7 +181,6 @@ class TaskList extends React.Component {
      */
     render() {
         const {tasks, task} = this.state;
-        const {nameBoard} = this.props;
         return (
             <>
                 {tasks.length ? (
@@ -205,8 +204,8 @@ class TaskList extends React.Component {
                         </table>
                     </div>
                 ) : (
-                    <div>
-                        <p>Brak dodanych zadań {nameBoard}</p>
+                    <div className={styles.empty}>
+                        <p>Brak dodanych zadań</p>
                     </div>
                 )}
                 {this.state.showModal ? (

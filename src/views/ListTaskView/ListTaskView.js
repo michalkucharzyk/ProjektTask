@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./ListTaskView.module.scss"
+import styles from "./ListTaskView.module.scss"
 import {CurrentUserConsumer} from "../../context/CurrentUserContext";
 import TaskList from "../../components/TaskList/TaskList";
 
@@ -11,8 +11,8 @@ class ListTaskView extends React.Component {
                 {
                     ({isLogged, user}) => (
                         <>
-                            <div className={style.wrapper}>
-                                <h2>Zadan dla grupy: {name}</h2>
+                            <div className={styles.wrapper}>
+                                <h2 className={styles.title}>  Zadan dla grupy: {name}</h2>
                                 <TaskList nameBoard={name} idBoard={id} />
                             </div>
                         </>
